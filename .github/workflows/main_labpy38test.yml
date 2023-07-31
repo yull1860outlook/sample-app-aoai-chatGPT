@@ -54,10 +54,18 @@ jobs:
           name: python-app
           path: .
           
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'labpy38test'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0FD70AB649BC4BFE8270B7A7988E6E21 }}
+
+      # Azure logout
+      - name: logout
+        run: |
+          az logout
